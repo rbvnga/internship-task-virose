@@ -72,7 +72,7 @@ void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam))
   }
 } </pre>
 
-**Fungsi <pre> baca_serial <pre> bertugas untuk:**
+**Fungsi <pre> baca_serial <pre> bertugas untuk:** </pre>
 
 • 	Membaca input dari Serial Monitor </pre>
 • 	Memvalidasi dan memproses input</pre>
