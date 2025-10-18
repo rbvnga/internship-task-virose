@@ -26,7 +26,8 @@ DATA: Data yang akan dikirim berukuran N byte </pre>
 | 0x02 | JAWABAN	| String |
 
 Untuk perintah CEK dan HALO, perintah hanya diikuti 1 parameter yaitu tujuan jika diterima dari Serial. Jika menerima dari ESP-NOW, perintah diikuti dengan String. </pre>
-**Contoh input pada serial monitor (Teks)**
+
+**Contoh input pada serial monitor (Teks)** </pre>
 <pre> // fungsi untuk membaca input dari serial monitoe
 void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam)) {
   //memeriksa apakah ada input baru
