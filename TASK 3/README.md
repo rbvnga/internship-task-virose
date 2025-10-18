@@ -12,6 +12,7 @@ Program ini membangun sistem komunikasi antar 12 perangkat ESP menggunakan proto
 | HEADER	| LENGTH | DATA |
 |-----------|------------|---------------|
 | 3 byte	| 1 byte | N byte |
+
 HEADER: 0xFF 0xFF 0x00
 LENGTH: Panjang data yang akan dikirim (N byte)
 DATA: Data yang akan dikirim berukuran N byte
