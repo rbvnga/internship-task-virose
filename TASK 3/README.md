@@ -106,3 +106,42 @@ Perintah JAWAB:</pre>
 
 **Perintah JAWAB** </pre> 
 - hanya menerima dari ESP-NOW, cetak ke Serial Monitor String yang diterima </pre>
+
+Setiap perintah yang diterima dari serial diproses melalui fungsi `baca_serial`, sedangkan setiap perintah yang diterima dari ESP_NOW diproses melalui fungsi `process_perintah`
+
+<pre> 
+//fungsi yang memproses pesan yang diterima
+void process_perintah(const uint8_t *data, int len, int index_mac_address_asal) {
+  //ubah data byte yang diterima menjadi teks
+  String message = String((char*)data); 
+  
+  if (message.startsWith("HALO")) { //jika mendapatkan pesan HALO
+    //membuat balasan dari pesan HALO lalu mengirimnya 
+    String reply = "JAWAB, Halo Juga halo " + mac_index_to_names(index_mac_address_asal) + ", Aku " + mac_index_to_names(mac_index_ku);
+    uint8_t* senderMac = mac_addresses[index_mac_address_asal];
+    esp_now_send(senderMac, (uint8_t*)reply.c_str(), reply.length());
+  } else if (message.startsWith("CEK")) { //jika mendapatkan pesan CEK
+    //membuat balasan dari pesan CEK lalu mengirimnya 
+    String reply = "JAWAB, Iya aku " + mac_index_to_names(index_mac_address_asal) + " Disini - " + mac_index_to_names(mac_index_ku);
+    uint8_t* senderMac = mac_addresses[index_mac_address_asal];
+    esp_now_send(senderMac, (uint8_t*)reply.c_str(), reply.length());
+  } else if (message.startsWith("JAWAB")) { //jika mendapatkan pesan JAWAB
+    //mencetak balasan dari pesan JAWAB
+    Serial.println("Pesan JAWAB diterima: " + message);
+  }
+}
+
+// Callback untuk menerima data dari ESP-NOW
+void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
+  //untuk mengetahui indeks pengirim 
+  int senderIndex = getIndexFromMac((uint8_t*)mac); 
+  //setiap pesan yang diterima diproses dengan fungsi prosess_perintah
+  process_perintah(incomingData, len, senderIndex);
+}
+</pre> 
+
+**penjelasan alur** </pre> 
+1. 	ESP menerima data →  `onDataRecv` aktif </pre> 
+2. 	MAC pengirim diidentifikasi → `senderIndex` </pre> 
+3. 	Data diproses → `process_perintah`</pre> 
+4. 	Mengirim pesan balasan dari setiap perintah yang diterima dari ESP-NOW </pre> 
