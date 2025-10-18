@@ -25,10 +25,10 @@ Untuk perintah CEK dan HALO, perintah hanya diikuti 1 parameter yaitu tujuan jik
 
 **Contoh input pada serial monitor** </pre>
 <pre> FF FF 00 06 00 10 </pre>
-HEADER: 0xFF 0xFF 0x00 </pre>
-LENGTH: Panjang data yang akan dikirim (06 byte) </pre>
-PERINTAH: Mengirimkan perintah 00 atau perintah HALO </pre>
-INDEKS TUJUAN: Mengirimkan pesan ke indeks 10 </pre>
+- HEADER: 0xFF 0xFF 0x00 </pre>
+- LENGTH: Panjang data yang akan dikirim (06 byte) </pre>
+- PERINTAH: Mengirimkan perintah 00 atau perintah HALO </pre>
+- INDEKS TUJUAN: Mengirimkan pesan ke indeks 10 </pre>
 
 <pre> // fungsi untuk membaca input dari serial monitor
 void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam)) {
