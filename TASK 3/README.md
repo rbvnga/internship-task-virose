@@ -4,7 +4,7 @@ Program ini membangun sistem komunikasi antar 12 perangkat ESP menggunakan proto
 <pre> ```cpp int mac_index_ku = 11; ``` </pre>
 ## TODO 1 - Membuat perintah untuk mencetak teks yang menyatakan identitas</pre>
 1. Mendefinisikan `mac_index_ku` sesuai dengan indeks alamat MAC yang telah diberikan, yaitu 11. </pre>
-<pre> ```int mac_index_ku = 11;``` </pre>
+<pre> ```cpp int mac_index_ku = 11;``` </pre>
 2. Namaku dapat dicetak dengan memanggil fungsi `mac_index_to_names` dengan parameter `mac_index_ku` </pre>
 <pre> int mac_index_ku = 11; </pre>
 ## TODO 2 - Membuat perintah pemrosesan data perintah yang akan diterima serial dari laptop </pre>
