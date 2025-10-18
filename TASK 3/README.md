@@ -71,4 +71,25 @@ void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam))
     }
   }
 } </pre>
+
+**Fungsi <pre> baca_serial </pre> bertugas untuk:**
+• 	Membaca input dari Serial Monitor.
+• 	Memvalidasi dan memproses input.
+• 	Menghasilkan pesan berdasarkan perintah dan tujuan.
+• 	Mengirim data melalui callback dalam bentuk byte.
+
+**Penjelasan alur fungsi <pre> baca_serial </pre>:**
+1. Mengecek apakah ada data yang masuk dari Serial Monitor.
 ## TODO 2 - Membuat perintah untuk memproses perintah yang diterima baik melalui Serial dan ESP-NOW </pre>
+**Ketentunan pemrosesan perintah:** </pre>
+Perintah HALO:
+
+Jika menerima perintah HALO dari Serial, maka kirimkan packet perintah ke pengirim dengan format: "HALO(enum), 'Halo [Nama Tujuan] Aku [Namamu]'"
+Jika menerima perintah HALO dari ESP-NOW, maka kirimkan perintah JAWABAN ke tujuan pengirim dengan format "JAWAB(enum), 'Halo Juga [Nama Pengirim] Aku [Namamu]'".
+Perintah CEK:
+
+Jika menerima perintah CEK dari Serial, maka kirimkan packet perintah ke pengirim dengan format: "CEK(enum), '[Nama tujuan] ini [Namamu] apa kamu disana?'"
+Jika menerima perintah CEK dari ESP-NOW, maka kirimkan perintah JAWABAN ke tujuan pengirim dengan format "JAWAB(enum), 'Iya Aku [Nama pengirim] Disini - [Namamu]'".
+Perintah JAWAB:
+
+Perintah JAWAB cuma menerima dari ESP-NOW, cetak ke Serial Monitor String yang diterima".
