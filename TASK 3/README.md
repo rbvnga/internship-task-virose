@@ -7,14 +7,22 @@ Program ini membangun sistem komunikasi antar 12 perangkat ESP menggunakan proto
 2. Namaku dapat dicetak dengan memanggil fungsi `mac_index_to_names` dengan parameter `mac_index_ku`, misalnya </pre>
 <pre> message = "HALO, halo " + mac_index_to_names(tujuanIndex) + ", aku " + mac_index_to_names(mac_index_ku); </pre>
 ## TODO 2 - Membuat perintah pemrosesan data perintah yang akan diterima serial dari laptop </pre>
-Ketentuan penerimaan data dari serial memiliki Struktur sebagai berikut:
+**Ketentuan penerimaan data dari serial memiliki Struktur sebagai berikut:**
 
-HEADER	LENGTH	DATA
-3 byte	1 byte	N byte
+| HEADER	| LENGTH | DATA |
+| 3 byte	| 1 byte | N byte |
 HEADER: 0xFF 0xFF 0x00
 LENGTH: Panjang data yang akan dikirim (N byte)
 DATA: Data yang akan dikirim berukuran N byte
 
+**Perintah yang dapat diproses:**
+
+| Perintah |	Keterangan |	Parameter |
+0x00	HALO	1 byte (Tujuan) / String
+0x01	CEK	1 byte (Tujuan) / String
+0x02	JAWABAN	String
+Untuk perintah CEK dan HALO, perintah hanya diikuti 1 parameter yaitu tujuan jika diterima dari Serial. Jika menerima dari ESP-NOW, perintah diikuti dengan String.
+**Contoh input pada serial monitor (Teks)**
 <pre> // fungsi untuk membaca input dari serial monitoe
 void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam)) {
   //memeriksa apakah ada input baru
