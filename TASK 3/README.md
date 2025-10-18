@@ -72,14 +72,14 @@ void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam))
   }
 } </pre>
 
-**Fungsi <pre> baca_serial <pre> bertugas untuk:** </pre>
+**Fungsi `baca_serial` bertugas untuk:** </pre>
 
 • 	Membaca input dari Serial Monitor </pre>
-• 	Memvalidasi dan memproses input</pre>
+• 	Memvalidasi dan memproses input </pre>
 • 	Menghasilkan pesan berdasarkan perintah dan tujuan </pre>
 • 	Mengirim data melalui callback dalam bentuk byte </pre>
 
-**Penjelasan alur fungsi <pre> baca_serial <pre>:** </pre>
+**Penjelasan alur fungsi `baca_serial`:** </pre>
 
 1. Mengecek apakah ada data yang masuk dari Serial Monitor </pre>
 2. Memastikan input memiliki 12 karakter agar bisa diproses </pre>
@@ -87,7 +87,7 @@ void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam))
 4. Mengubah input string menjadi integer atau bilangan bulat </pre>
 5. Memastikan indeks tujuan valid dan bukan milik perangkat sendiri </pre>
 6. Mengidentifikasi perintah dan membuat masing-masing pesannya </pre>
-7. Mengubah pesan string menjadi array byte untuk dikirim melalui fungsi <pre> callback <pre>
+7. Mengubah pesan string menjadi array byte untuk dikirim melalui fungsi `callback` </pre>
 
 
 ## TODO 2 - Membuat perintah untuk memproses perintah yang diterima baik melalui Serial dan ESP-NOW </pre>
