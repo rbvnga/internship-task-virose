@@ -13,17 +13,19 @@ Program ini membangun sistem komunikasi antar 12 perangkat ESP menggunakan proto
 |-----------|------------|---------------|
 | 3 byte	| 1 byte | N byte |
 
-HEADER: 0xFF 0xFF 0x00
-LENGTH: Panjang data yang akan dikirim (N byte)
-DATA: Data yang akan dikirim berukuran N byte
+HEADER: 0xFF 0xFF 0x00 </pre>
+LENGTH: Panjang data yang akan dikirim (N byte) </pre>
+DATA: Data yang akan dikirim berukuran N byte </pre>
 
 **Perintah yang dapat diproses:**
 
 | Perintah |	Keterangan |	Parameter |
-0x00	HALO	1 byte (Tujuan) / String
-0x01	CEK	1 byte (Tujuan) / String
-0x02	JAWABAN	String
-Untuk perintah CEK dan HALO, perintah hanya diikuti 1 parameter yaitu tujuan jika diterima dari Serial. Jika menerima dari ESP-NOW, perintah diikuti dengan String.
+|-----------|------------|---------------|
+| 0x00 |	HALO	1 byte | (Tujuan) / String |
+| 0x01 |	CEK	1 byte | (Tujuan) / String |
+| 0x02 | JAWABAN	| String |
+
+Untuk perintah CEK dan HALO, perintah hanya diikuti 1 parameter yaitu tujuan jika diterima dari Serial. Jika menerima dari ESP-NOW, perintah diikuti dengan String. </pre>
 **Contoh input pada serial monitor (Teks)**
 <pre> // fungsi untuk membaca input dari serial monitoe
 void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam)) {
