@@ -10,6 +10,7 @@ Program ini membangun sistem komunikasi antar 12 perangkat ESP menggunakan proto
 **Ketentuan penerimaan data dari serial memiliki Struktur sebagai berikut:**
 
 | HEADER	| LENGTH | DATA |
+|-----------|------------|---------------|
 | 3 byte	| 1 byte | N byte |
 HEADER: 0xFF 0xFF 0x00
 LENGTH: Panjang data yang akan dikirim (N byte)
