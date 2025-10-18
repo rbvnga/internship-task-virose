@@ -30,7 +30,7 @@ LENGTH: Panjang data yang akan dikirim (06 byte) </pre>
 PERINTAH: Mengirimkan perintah 00 atau perintah HALO </pre>
 INDEKS TUJUAN: Mengirimkan pesan ke indeks 10 </pre>
 
-<pre> // fungsi untuk membaca input dari serial monitoe
+<pre> // fungsi untuk membaca input dari serial monitor
 void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam)) {
   //memeriksa apakah ada input baru
   if (Serial.available() > 0) {
@@ -76,7 +76,7 @@ void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam))
 
 **Fungsi `baca_serial` bertugas untuk:** </pre>
 
-• 	Membaca input dari Serial Monitor </pre>
+• 	Membaca input dari Serial Monitor 
 • 	Memvalidasi dan memproses input </pre>
 • 	Menghasilkan pesan berdasarkan perintah dan tujuan </pre>
 • 	Mengirim data melalui callback dalam bentuk byte </pre>
