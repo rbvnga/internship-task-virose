@@ -109,8 +109,7 @@ Perintah JAWAB:</pre>
 
 Setiap perintah yang diterima dari serial diproses melalui fungsi `baca_serial`, sedangkan setiap perintah yang diterima dari ESP_NOW diproses melalui fungsi `process_perintah`
 
-<pre> 
-//fungsi yang memproses pesan yang diterima
+<pre> //fungsi yang memproses pesan yang diterima
 void process_perintah(const uint8_t *data, int len, int index_mac_address_asal) {
   //ubah data byte yang diterima menjadi teks
   String message = String((char*)data); 
@@ -144,4 +143,44 @@ void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
 1. 	ESP menerima data →  `onDataRecv` aktif </pre> 
 2. 	MAC pengirim diidentifikasi → `senderIndex` </pre> 
 3. 	Data diproses → `process_perintah`</pre> 
-4. 	Mengirim pesan balasan dari setiap perintah yang diterima dari ESP-NOW </pre> 
+4. 	Mengirim pesan balasan dari setiap perintah yang diterima dari ESP-NOW </pre>
+
+## FUNGSI SETUP() </pre> 
+Fungsi setup() bertujuan untuk menginisialisasi komunikasi ESP-NOW antar perangkat ESP </pre> 
+
+<pre> void setup() {
+  Serial.begin(115200); //memulai serial untuk komunikasi dengan komputer
+
+  WiFi.disconnect(true); // Putus koneksi WiFi sebelumnya
+  WiFi.mode(WIFI_STA); //mengatur perangkat untuk mode WIFI STATION
+  delay(100); 
+
+  //inisialisasi ESP NOW
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("Error inisialisasi ESP-NOW");
+    return;
+  }
+  //mendaftarkan fungsi onDataRecv untuk menerima pesan
+  esp_now_register_recv_cb(onDataRecv);
+  //menyatakan bahwa program sudah siap
+  Serial.println("ESP-NOW siap.");
+
+  //mendeklarasikan struktur untuk menyimpan informasi peer
+  esp_now_peer_info_t peerInfo;
+  for (int i = 0; i < MAC_ADDRESS_TOTAL; i++) {
+  if (i != mac_index_ku) { //memastikan agar tidak menambahkan diri sendiri senbagai peer 
+    memcpy(peerInfo.peer_addr, mac_addresses[i], 6);
+    peerInfo.channel = 1;
+    peerInfo.encrypt = false;
+    if (esp_now_add_peer(&peerInfo) != ESP_OK) {
+      Serial.print("Gagal menambahkan peer ke indeks ");
+      Serial.println(i);
+    }
+  }
+} </pre> 
+## FUNGSI LOOP() </pre> 
+Fungsi `loop()` berperan sebagai inti dari siklus eksekusi utama dalam program ini. Pemanggilan fungsi `baca_serial(process_perintah)` menyatakan bahwa setiap kali loop berjalan, program akan memeriksa apakah ada input baru dari Serial Monitor. Jika ada, input tersebut akan dibaca dan diproses oleh fungsi `baca_serial` , yang kemudian akan meneruskan data ke fungsi `process_perintah` sebagai callback. </pre> 
+<pre> void loop() {
+  //memanggil fungsi baca serial untuk cek input dan prosesnya untuk menjalankan program
+  baca_serial(process_perintah); 
+} </pre> 
