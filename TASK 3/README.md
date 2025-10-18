@@ -1,11 +1,53 @@
 # TASK 3 - SAPA MENYAPA </pre>
 ## DESKRIPSI
 Program ini membangun sistem komunikasi antar 12 perangkat ESP menggunakan protokol ESP_NOW. Program ini memungkinkan setiap ESP bertukar pesan berdasarkan perintah yang dikirim melalui Serial Monitor, dengan format yang telah ditentukan. </pre>
-<pre> ```cpp int mac_index_ku = 11; ``` </pre>
 ## TODO 1 - Membuat perintah untuk mencetak teks yang menyatakan identitas</pre>
 1. Mendefinisikan `mac_index_ku` sesuai dengan indeks alamat MAC yang telah diberikan, yaitu 11. </pre>
-<pre> ```cpp int mac_index_ku = 11;``` </pre>
-2. Namaku dapat dicetak dengan memanggil fungsi `mac_index_to_names` dengan parameter `mac_index_ku` </pre>
 <pre> int mac_index_ku = 11; </pre>
+2. Namaku dapat dicetak dengan memanggil fungsi `mac_index_to_names` dengan parameter `mac_index_ku`, misalnya </pre>
+<pre> message = "HALO, halo " + mac_index_to_names(tujuanIndex) + ", aku " + mac_index_to_names(mac_index_ku); </pre>
 ## TODO 2 - Membuat perintah pemrosesan data perintah yang akan diterima serial dari laptop </pre>
+<pre> // fungsi untuk membaca input dari serial monitoe
+void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam)) {
+  //memeriksa apakah ada input baru
+  if (Serial.available() > 0) {
+    String input = Serial.readStringUntil('\n'); //baca input sampai baris baru
+    input.trim(); //abaikan spasi 
+    
+    if (input.length() >= 12) { //pastikan input terdiri dari 12 karakter
+      String perintahStr = input.substring(8, 10); // byte ke 9-10 adalah perintah
+      String tujuanStr = input.substring(10, 12); // byte ke 11-12 adalah tujuan
+      
+      int perintah = strtol(perintahStr.c_str(), NULL, 16); //mengubah string perintah menjadi angka (int)
+      int tujuanIndex = strtol(tujuanStr.c_str(), NULL, 16); //mengubah string tujuan menjadi angka (int)
+      
+      if (tujuanIndex >= 0 && tujuanIndex < MAC_ADDRESS_TOTAL && tujuanIndex != mac_index_ku) {
+        String message = ""; //membuat pesan (massage) kosong 
+        
+        if (perintah == 0) { //perintah HALO
+          message = "HALO, halo " + mac_index_to_names(tujuanIndex) + ", aku " + mac_index_to_names(mac_index_ku);
+        } else if (perintah == 1) { //perintah CEK
+          message = "CEK, " + mac_index_to_names(tujuanIndex) + ", ini " + mac_index_to_names(mac_index_ku) + " apa kamu disana?";
+        } else if (perintah == 2) { //perintah JAWAB
+          Serial.println("Perintah JAWAB hanya untuk diterima dari ESP-NOW, tidak dikirim manual.");
+          return;
+        }
+
+        //mengubah bentuk teks menjadi byte yang bisa dikirim 
+        const char* msgChar = message.c_str();
+        uint8_t msgData[message.length() + 1];
+        for (int i = 0; i < message.length(); i++) {
+          msgData[i] = (uint8_t)msgChar[i];
+        }
+        msgData[message.length()] = 0;
+        // Panggil callback dengan (int) extra sebagai tujuanIndex
+        callback(msgData, message.length(), tujuanIndex);  
+      } else { //jika indeks tujuan salah
+        Serial.println("Indeks tujuan tidak valid"); 
+      }
+    } else {//jika input salah
+      Serial.println("Input tidak valid.");
+    }
+  }
+} </pre>
 ## TODO 2 - Membuat perintah untuk memproses perintah yang diterima baik melalui Serial dan ESP-NOW </pre>
