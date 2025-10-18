@@ -27,7 +27,7 @@ DATA: Data yang akan dikirim berukuran N byte </pre>
 
 Untuk perintah CEK dan HALO, perintah hanya diikuti 1 parameter yaitu tujuan jika diterima dari Serial. Jika menerima dari ESP-NOW, perintah diikuti dengan String. </pre>
 
-**Contoh input pada serial monitor (Teks)** </pre>
+**Contoh input pada serial monitor** </pre>
 <pre> // fungsi untuk membaca input dari serial monitoe
 void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam)) {
   //memeriksa apakah ada input baru
@@ -72,14 +72,22 @@ void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam))
   }
 } </pre>
 
-**Fungsi <pre> baca_serial </pre> bertugas untuk:**
-• 	Membaca input dari Serial Monitor.
-• 	Memvalidasi dan memproses input.
-• 	Menghasilkan pesan berdasarkan perintah dan tujuan.
-• 	Mengirim data melalui callback dalam bentuk byte.
+**Fungsi <pre> baca_serial <pre> bertugas untuk:**
+• 	Membaca input dari Serial Monitor </pre>
+• 	Memvalidasi dan memproses input</pre>
+• 	Menghasilkan pesan berdasarkan perintah dan tujuan </pre>
+• 	Mengirim data melalui callback dalam bentuk byte </pre>
 
-**Penjelasan alur fungsi <pre> baca_serial </pre>:**
-1. Mengecek apakah ada data yang masuk dari Serial Monitor.
+**Penjelasan alur fungsi <pre> baca_serial <pre>:** </pre>
+1. Mengecek apakah ada data yang masuk dari Serial Monitor </pre>
+2. Memastikan input memiliki 12 karakter agar bisa diproses </pre>
+3. Mengambil karakter ke-9 dan ke-10 sebagai kode perintah serta karakter ke-11 dan ke-12 sebagai indeks tujuan </pre>
+4. Mengubah input string menjadi integer atau bilangan bulat </pre>
+5. Memastikan indeks tujuan valid dan bukan milik perangkat sendiri </pre>
+6. Mengidentifikasi perintah dan membuat masing-masing pesannya </pre>
+7. Mengubah pesan string menjadi array byte untuk dikirim melalui fungsi <pre> callback </pre>
+
+
 ## TODO 2 - Membuat perintah untuk memproses perintah yang diterima baik melalui Serial dan ESP-NOW </pre>
 **Ketentunan pemrosesan perintah:** </pre>
 Perintah HALO:
