@@ -94,6 +94,7 @@ void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam))
 
 ## TODO 3 - Membuat perintah untuk memproses perintah yang diterima baik melalui Serial dan ESP-NOW </pre>
 **Ketentunan pemrosesan perintah:** </pre>
+
 **Perintah HALO:** </pre>
 - Jika menerima perintah HALO dari Serial, maka kirimkan packet perintah ke pengirim dengan format: "HALO(enum), 'Halo [Nama Tujuan] Aku [Namamu]'" </pre>
 - Jika menerima perintah HALO dari ESP-NOW, maka kirimkan perintah JAWABAN ke tujuan pengirim dengan format "JAWAB(enum), 'Halo Juga [Nama Pengirim] Aku [Namamu]'". </pre>
