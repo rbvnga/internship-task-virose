@@ -73,31 +73,33 @@ void baca_serial(void (*callback)(const uint8_t *data, int len, int extraParam))
 } </pre>
 
 **Fungsi <pre> baca_serial <pre> bertugas untuk:**
+
 • 	Membaca input dari Serial Monitor </pre>
 • 	Memvalidasi dan memproses input</pre>
 • 	Menghasilkan pesan berdasarkan perintah dan tujuan </pre>
 • 	Mengirim data melalui callback dalam bentuk byte </pre>
 
 **Penjelasan alur fungsi <pre> baca_serial <pre>:** </pre>
+
 1. Mengecek apakah ada data yang masuk dari Serial Monitor </pre>
 2. Memastikan input memiliki 12 karakter agar bisa diproses </pre>
 3. Mengambil karakter ke-9 dan ke-10 sebagai kode perintah serta karakter ke-11 dan ke-12 sebagai indeks tujuan </pre>
 4. Mengubah input string menjadi integer atau bilangan bulat </pre>
 5. Memastikan indeks tujuan valid dan bukan milik perangkat sendiri </pre>
 6. Mengidentifikasi perintah dan membuat masing-masing pesannya </pre>
-7. Mengubah pesan string menjadi array byte untuk dikirim melalui fungsi <pre> callback </pre>
+7. Mengubah pesan string menjadi array byte untuk dikirim melalui fungsi <pre> callback <pre>
 
 
 ## TODO 2 - Membuat perintah untuk memproses perintah yang diterima baik melalui Serial dan ESP-NOW </pre>
 **Ketentunan pemrosesan perintah:** </pre>
-Perintah HALO:
+Perintah HALO: </pre>
 
 Jika menerima perintah HALO dari Serial, maka kirimkan packet perintah ke pengirim dengan format: "HALO(enum), 'Halo [Nama Tujuan] Aku [Namamu]'"
 Jika menerima perintah HALO dari ESP-NOW, maka kirimkan perintah JAWABAN ke tujuan pengirim dengan format "JAWAB(enum), 'Halo Juga [Nama Pengirim] Aku [Namamu]'".
-Perintah CEK:
+Perintah CEK:</pre>
 
 Jika menerima perintah CEK dari Serial, maka kirimkan packet perintah ke pengirim dengan format: "CEK(enum), '[Nama tujuan] ini [Namamu] apa kamu disana?'"
 Jika menerima perintah CEK dari ESP-NOW, maka kirimkan perintah JAWABAN ke tujuan pengirim dengan format "JAWAB(enum), 'Iya Aku [Nama pengirim] Disini - [Namamu]'".
-Perintah JAWAB:
+Perintah JAWAB:</pre>
 
 Perintah JAWAB cuma menerima dari ESP-NOW, cetak ke Serial Monitor String yang diterima".
