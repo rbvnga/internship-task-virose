@@ -157,6 +157,12 @@ int main() {
 
     return 0;
 } </pre>
+**Keterangan** </pre>
+1. membaca file halo.json dalam mode biner </pre>
+2. memecah data menjadi potongan-potongan setiap beberapa byte, didalam kode ini file dipecah setiap 50 byte </pre>
+3. setiap potongan akan memiliki header sederhana, yaitu index ptongan, total potongan, dan ukuran data </pre>
+4. masukkan header dan isi data di setiap potongannya </pre>
+5. kirim potongan ke serial
 ### FORMAT FILE .JSON </pre>
 File .json harus menggunakan setiap key yang ditentukan sedangkan untuk value setiap key dibebaskan. Khusus Value dari deskripsi harus memiliki kata **setidaknya 25 kata** </pre>
 <pre>
@@ -268,6 +274,14 @@ void loop() {
     delay(5);
   }
 } </pre>
+**keterangan**  </pre>
+1. memastikan ESP Bridge ke mode station </pre>
+2. membaca semua byte yang masuk  dari serial </pre>
+3. cek apakah buffer (byte yang dikirim) sudah berisi header dan isi data yang memenuhi</pre>
+4. parse setiap frame dari serial buffer </pre>
+5. menetapkan MAC Address ESP penerima </pre>
+6. Menambahkan peer atau perangkat tujuan ke daftar ESP NOW </pre>
+7. kirim data frame via ESP NOW ke MAC Receiver </pre> 
 ## ESP RECEIVER </pre>
 ### main.cpp
 <pre> #include <Arduino.h>
@@ -360,3 +374,5 @@ void setup() {
 
 void loop() {}
  </pre>
+**keterangan**  </pre>
+1. 
