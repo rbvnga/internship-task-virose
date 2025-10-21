@@ -53,6 +53,20 @@ esp-receiver: </pre>
           ├── .gitinore
           ├── platformio </pre>
 
+#### CMakeLists.txt
+<pre>cmake_minimum_required(VERSION 3.10)
+project(FileTransferLaptop)
+# Menentukan versi minimum CMake yang diperlukan   
+set(CMAKE_CXX_STANDARD 17)
+
+# Tambahkan include dan library path untuk serial
+include_directories("C:/Users/asusv/serial/include")
+link_directories("C:/Users/asusv/serial/build/Release")
+
+add_executable(FileTransferLaptop src/main.cpp)
+
+# Menautkan link library "serial" ke executable "FileTransferLaptop"
+target_link_libraries(FileTransferLaptop serial)</pre>
 
 ### FORMAT FILE .JSON </pre>
 File .json harus menggunakan setiap key yang ditentukan sedangkan untuk value setiap key dibebaskan. Khusus Value dari deskripsi harus memiliki kata **setidaknya 25 kata** </pre>
