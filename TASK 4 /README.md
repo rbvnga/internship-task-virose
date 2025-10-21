@@ -91,7 +91,7 @@ vector<uint8_t> readFileBinary(const string &filename) {
 vector<vector<uint8_t>> splitData(const vector<uint8_t> &data, size_t chunkSize) {
     vector<vector<uint8_t>> chunks; //chunks -> vektor untuk menyimpan potongan-potongan file .json
     for (size_t i = 0; i < data.size(); i += chunkSize) {
-        //Menghitung indeks akhir dari potongan
+        //Menghitung indeks akhir dari potongan agar tidak overflow
         size_t end = min(i + chunkSize, data.size());
         //Memasukkan potongan data ke dalam chunks
         chunks.emplace_back(data.begin() + i, data.begin() + end);
