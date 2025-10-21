@@ -174,12 +174,12 @@ File .json harus menggunakan setiap key yang ditentukan sedangkan untuk value se
 #include <esp_now.h>
 #include <vector>
 
-// GANTI dengan MAC address ESP-Receiver kamu
+//MAC address ESP penerima 
 uint8_t RECEIVER_MAC[] = { 0xD0, 0xEF, 0x76, 0x32, 0x55, 0xB8 };  
-// Untuk tahu MAC receiver, nanti bisa cetak di kode receiver pakai WiFi.macAddress()
 
 #define SERIAL_BAUD 115200
 
+//buffer dinamis untuk menyimpan byte yang diterima dari Serial
 std::vector<uint8_t> serialBuf;
 
 // Callback ketika data terkirim via ESP-NOW
@@ -193,7 +193,7 @@ void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "SUKSES" : "GAGAL");
 }
 
-// Tambah peer (tujuan kirim ESP-NOW)
+// Tambah peer atau perangkat tujuan ke daftar ESP NOW
 bool addPeer(const uint8_t *peer_mac) {
   esp_now_peer_info_t peerInfo = {};
   memcpy(peerInfo.peer_addr, peer_mac, 6);
@@ -208,13 +208,16 @@ bool addPeer(const uint8_t *peer_mac) {
 }
 
 // Parse frame dari serial buffer
-bool tryParseFrame(std::vector<uint8_t> &buf, std::vector<uint8_t> &frame) {
+//Mengecek apakah buffer berisi satu frame lengkap 
+bool ParseFrame(std::vector<uint8_t> &buf, std::vector<uint8_t> &frame) {
   if (buf.size() < 3) return false; // butuh header 3 byte
-  uint8_t payload_len = buf[2];
+  uint8_t payload_len = buf[2]; //->Byte ke 3 (indeks 2) menunjukkan panjang payload
+  //Menghitung total panjang frame
   size_t total_len = 3 + payload_len;
   if (buf.size() < total_len) return false;
-
+  // Menyalin total panjang frame/ total_len (byte) pertama dari  ke .
   frame.assign(buf.begin(), buf.begin() + total_len);
+  //Menghapus data frame yang sudah diproses dari buf
   buf.erase(buf.begin(), buf.begin() + total_len);
   return true;
 }
@@ -231,6 +234,8 @@ void setup() {
     Serial.println("Gagal inisialisasi ESP-NOW");
     while (true) delay(1000);
   }
+
+  //Mendaftarkan callback untuk status pengiriman
   esp_now_register_send_cb(onDataSent);
 
   if (addPeer(RECEIVER_MAC)) {
@@ -248,8 +253,9 @@ void loop() {
   }
 
   // Jika ada frame lengkap → kirim via ESP-NOW
-  std::vector<uint8_t> frame;
-  while (tryParseFrame(serialBuf, frame)) {
+  std::vector<uint8_t> frame;//-> vektor frame untuk menyimpan satu frame yang berhasil di parse
+  while (ParseFrame(serialBuf, frame)) {
+    //kirim data frame via ESP-NOW ke MAC Receiver
     esp_err_t res = esp_now_send(RECEIVER_MAC, frame.data(), frame.size());
     if (res == ESP_OK) {
       Serial.printf("Kirim frame idx=%u total=%u len=%u\n",
@@ -257,9 +263,7 @@ void loop() {
     } else {
       Serial.printf("Gagal kirim (kode %d)\n", res);
     }
-    delay(5); // beri waktu untuk stack ESP-NOW
+    delay(5);
   }
-
-  delay(10);
 } </pre>
 ## ESP RECEIVER </pre>
