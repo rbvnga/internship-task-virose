@@ -1,5 +1,43 @@
 # TASK 4 - CROSS PLATFORM FILE TRANSFER </pre>
 ## DESKRIPSI </pre>
+## STRUKTUR FOLDER </pre>
+<pre>TASK 4/
+├──build/ 
+├──data/ 
+│  ├── halo.json
+├──lib/ 
+│  ├── serial/
+├──src/
+│  ├── main.cpp
+|
+├──CMakeLists.txt
+|
+├──ESP/ 
+│  ├── ESP BRIDGE/
+│      ├── Bridge/
+│          ├── .pio/
+│          ├── .vscode/
+│          ├── include/
+│          ├── lib/
+│          ├── test/
+│          ├── src/
+│               ├── main.cpp/
+│          ├── .gitinore
+│          ├── platformio
+|
+│  ├── ESP RECEIVER/
+│      ├── Receiver/
+│          ├── .pio/
+│          ├── .vscode/
+│          ├── include/
+│          ├── lib/
+│          ├── test/
+│          ├── src/
+│               ├── main.cpp/
+│          ├── .gitinore
+│          ├── platformio </pre>
+
+
 ### FORMAT FILE .JSON </pre>
 File .json harus menggunakan setiap key yang ditentukan sedangkan untuk value setiap key dibebaskan. Khusus Value dari deskripsi harus memiliki kata **setidaknya 25 kata** </pre>
 <pre>
