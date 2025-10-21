@@ -119,8 +119,8 @@ int main() {
         auto fileData = readFileBinary(filePath);
         cout << " File dibaca: " << fileData.size() << " byte\n";
 
-        // Bagi file jadi potongan 200 byte
-        auto chunks = splitData(fileData, 200);
+        // Misal bagi file jadi potongan 50 byte
+        auto chunks = splitData(fileData, 50);
 
         cout << " Total potongan: " << chunks.size() << endl;
 
