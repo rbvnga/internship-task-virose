@@ -55,7 +55,8 @@ esp-receiver: </pre>
           ├── platformio </pre>
 
 #### CMakeLists.txt </pre>
-<pre># Menentukan versi minimum CMake yang diperlukan  cmake_minimum_required(VERSION 3.10)
+<pre># Menentukan versi minimum CMake yang diperlukan
+cmake_minimum_required(VERSION 3.10)
 project(FileTransferLaptop)
  
 set(CMAKE_CXX_STANDARD 17)
