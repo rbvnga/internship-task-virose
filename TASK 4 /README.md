@@ -17,6 +17,7 @@ esp-receiver: </pre>
 3. Simpan hasilnya ke SPIFFS . </pre>
 4. Setelah selesai, tampilkan hasil akhir di serial monitor sesuai format yang ditentukan. </pre>
 ## STRUKTUR FOLDER </pre>
+
 <pre>TASK 4/
 ├──build/ 
 ├──data/ 
