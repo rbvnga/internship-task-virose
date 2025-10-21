@@ -167,4 +167,99 @@ File .json harus menggunakan setiap key yang ditentukan sedangkan untuk value se
 </pre>
 ### FORMAT OUTPUT HASIL DATA YANG SUDAH DISUSUN KE SERIAL MONITOR </pre>
 ## ESP BRIDGE </pre>
+### main.cpp </pre>
+<pre>
+#include <Arduino.h>
+#include <WiFi.h>
+#include <esp_now.h>
+#include <vector>
+
+// GANTI dengan MAC address ESP-Receiver kamu
+uint8_t RECEIVER_MAC[] = { 0xD0, 0xEF, 0x76, 0x32, 0x55, 0xB8 };  
+// Untuk tahu MAC receiver, nanti bisa cetak di kode receiver pakai WiFi.macAddress()
+
+#define SERIAL_BAUD 115200
+
+std::vector<uint8_t> serialBuf;
+
+// Callback ketika data terkirim via ESP-NOW
+void onDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  Serial.print("[ESP-NOW] Kirim ke ");
+  for (int i = 0; i < 6; i++) {
+    if (i) Serial.print(":");
+    Serial.printf("%02X", mac_addr[i]);
+  }
+  Serial.print(" status = ");
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "SUKSES" : "GAGAL");
+}
+
+// Tambah peer (tujuan kirim ESP-NOW)
+bool addPeer(const uint8_t *peer_mac) {
+  esp_now_peer_info_t peerInfo = {};
+  memcpy(peerInfo.peer_addr, peer_mac, 6);
+  peerInfo.channel = 0;
+  peerInfo.encrypt = false;
+  esp_err_t res = esp_now_add_peer(&peerInfo);
+  if (res != ESP_OK && res != ESP_ERR_ESPNOW_EXIST) {
+    Serial.printf("Gagal menambahkan peer: %d\n", res);
+    return false;
+  }
+  return true;
+}
+
+// Parse frame dari serial buffer
+bool tryParseFrame(std::vector<uint8_t> &buf, std::vector<uint8_t> &frame) {
+  if (buf.size() < 3) return false; // butuh header 3 byte
+  uint8_t payload_len = buf[2];
+  size_t total_len = 3 + payload_len;
+  if (buf.size() < total_len) return false;
+
+  frame.assign(buf.begin(), buf.begin() + total_len);
+  buf.erase(buf.begin(), buf.begin() + total_len);
+  return true;
+}
+
+void setup() {
+  Serial.begin(SERIAL_BAUD);
+  delay(500);
+  Serial.println("=== ESP Bridge Mulai ===");
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+
+  // Inisialisasi ESP-NOW
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("Gagal inisialisasi ESP-NOW");
+    while (true) delay(1000);
+  }
+  esp_now_register_send_cb(onDataSent);
+
+  if (addPeer(RECEIVER_MAC)) {
+    Serial.println("Peer (receiver) ditambahkan.");
+  }
+
+  Serial.println("Menunggu data dari Serial...");
+}
+
+void loop() {
+  // Baca semua byte yang masuk dari Serial
+  while (Serial.available()) {
+    int b = Serial.read();
+    if (b >= 0) serialBuf.push_back((uint8_t)b);
+  }
+
+  // Jika ada frame lengkap → kirim via ESP-NOW
+  std::vector<uint8_t> frame;
+  while (tryParseFrame(serialBuf, frame)) {
+    esp_err_t res = esp_now_send(RECEIVER_MAC, frame.data(), frame.size());
+    if (res == ESP_OK) {
+      Serial.printf("Kirim frame idx=%u total=%u len=%u\n",
+                    frame[0], frame[1], frame[2]);
+    } else {
+      Serial.printf("Gagal kirim (kode %d)\n", res);
+    }
+    delay(5); // beri waktu untuk stack ESP-NOW
+  }
+
+  delay(10);
+} </pre>
 ## ESP RECEIVER </pre>
