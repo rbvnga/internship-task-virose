@@ -360,6 +360,6 @@ void loop() {}
 1. ESP-Bridge menerima file JSON dari laptop (via Serial). </pre>
 2. Bridge mengirim file JSON potongan demi potongan ke Receiver lewat ESP-NOW. </pre>
 3.  ESP-Receiver: </pre>
-Menerima potongan → simpan di SPIFFS </pre>
-Setelah tanda <<END>> diterima → tutup file </pre>
+Menerima potongan → simpan di SPIFFS </pre> |
+Setelah tanda <<END>> diterima → tutup file </pre> |
 Parsing JSON → tampilkan hasil terformat di Serial Monitor </pre>
