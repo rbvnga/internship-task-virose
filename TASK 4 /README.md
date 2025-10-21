@@ -70,10 +70,11 @@ target_link_libraries(FileTransferLaptop serial)</pre>
 
 #### Main.cpp
 
-<pre>#include <iostream>
+<pre>
+#include <iostream>
 #include <fstream>
 #include <vector>
-#include <serial/serial.h>   // Library serial dari wjwwood
+#include <serial/serial.h>  
 #include <thread>
 #include <chrono>
 
