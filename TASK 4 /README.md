@@ -13,29 +13,29 @@
 ├──CMakeLists.txt
 |
 ├──ESP/ 
-│  ├── ESP BRIDGE/
-│      ├── Bridge/
-│          ├── .pio/
-│          ├── .vscode/
-│          ├── include/
-│          ├── lib/
-│          ├── test/
-│          ├── src/
-│               ├── main.cpp/
-│          ├── .gitinore
-│          ├── platformio
-|
-│  ├── ESP RECEIVER/
-│      ├── Receiver/
-│          ├── .pio/
-│          ├── .vscode/
-│          ├── include/
-│          ├── lib/
-│          ├── test/
-│          ├── src/
-│               ├── main.cpp/
-│          ├── .gitinore
-│          ├── platformio </pre>
+  ├──── ESP BRIDGE/
+  |    ├── Bridge/
+  |       ├── .pio/
+  |        ├── .vscode/
+  |        ├── include/
+  |        ├── lib/
+  |        ├── test/
+  |        ├── src/
+  |            ├── main.cpp/
+  |        ├── .gitinore
+  |        ├── platformio
+  |
+  ├──── ESP RECEIVER/
+      ├── Receiver/
+          ├── .pio/
+          ├── .vscode/
+          ├── include/
+          ├── lib/
+          ├── test/
+          ├── src/
+               ├── main.cpp/
+          ├── .gitinore
+          ├── platformio </pre>
 
 
 ### FORMAT FILE .JSON </pre>
