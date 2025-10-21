@@ -267,3 +267,94 @@ void loop() {
   }
 } </pre>
 ## ESP RECEIVER </pre>
+### main.cpp
+<pre> #include <Arduino.h>
+#include <WiFi.h>
+#include <esp_now.h>
+#include <SPIFFS.h>
+#include <ArduinoJson.h>
+File file;
+bool receiving = false;
+
+// menampilkan isi file JSON yang diterima
+void tampilkanJSON() {
+  File f = SPIFFS.open("/result.json", "r");
+  if (!f) {
+    Serial.println("Gagal membuka file hasil!");
+    return;
+  }
+
+  // Alokasikan buffer JSON
+  //Deklarasi dokumen JSON statis dengan ukuran buffer 1024 byte
+  StaticJsonDocument<1024> doc;
+  DeserializationError error = deserializeJson(doc, f);
+  f.close(); //menutup file setelah parsing 
+
+  if (error) {
+    Serial.print("Gagal parsing JSON: ");
+    //Serial.println(error.c_str()); //Cetak detail error sebagai string
+    return;
+  }
+
+  // Ambil data dari JSON
+  const char* nama = doc["nama"];
+  const char* jurusan = doc["jurusan"];
+  int umur = doc["umur"];
+  const char* deskripsi = doc["deskripsi"];
+
+  Serial.print("NAMA: "); Serial.println(nama);
+  Serial.print("JURUSAN: "); Serial.println(jurusan);
+  Serial.print("UMUR: "); Serial.println(umur);
+  Serial.print("DESKRIPSI DIRI: "); Serial.println(deskripsi);
+}
+
+// Fungsi callback ESP-NOW saat data diterima
+void onReceive(const uint8_t *mac, const uint8_t *data, int len) {
+  String chunk = ""; // untuk menyimpan data yang diterima sebagai string
+  for (int i = 0; i < len; i++) chunk += (char)data[i];
+
+  // Jika sudah menerima tanda akhir file
+  if (chunk.indexOf("<<END>>") >= 0) {
+    file.close();
+    Serial.println("\n[ FILE SELESAI DITERIMA ]");
+    tampilkanJSON();
+    receiving = false;
+    return;
+  }
+
+  // Jika pertama kali menerima data
+  if (!receiving) {
+    SPIFFS.remove("/result.json");
+    file = SPIFFS.open("/result.json", "w");
+    receiving = true;
+    Serial.println("Mulai menerima file...");
+  }
+
+  // Tambahkan potongan ke file
+  file.print(chunk);
+  Serial.print(".");
+}
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+
+  if (!SPIFFS.begin(true)) {
+    Serial.println("Gagal inisialisasi SPIFFS!");
+    return;
+  }
+
+  if (esp_now_init() != ESP_OK) {
+    Serial.println("Gagal inisialisasi ESP-NOW!");
+    return;
+  }
+  //mendaftarkan callbaxk untuk menerima data 
+  esp_now_register_recv_cb(onReceive);
+
+  Serial.println("ESP-Receiver siap menerima data...");
+  Serial.print("MAC Address: ");
+  Serial.println(WiFi.macAddress());
+}
+
+void loop() {}
+ </pre>
