@@ -73,15 +73,6 @@ target_link_libraries(FileTransferLaptop serial)</pre>
 #### Main.cpp </pre>
 
 <pre>
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <serial/serial.h>  
-#include <thread>
-#include <chrono>
-
-using namespace std;
-
 //membuka dan membaca file dalam mode biner
 vector<uint8_t> readFileBinary(const string &filename) {
     ifstream file(filename, ios::binary);
@@ -177,11 +168,6 @@ File .json harus menggunakan setiap key yang ditentukan sedangkan untuk value se
 ## ESP BRIDGE </pre>
 ### main.cpp </pre>
 <pre>
-#include <Arduino.h>
-#include <WiFi.h>
-#include <esp_now.h>
-#include <vector>
-
 //MAC address ESP penerima 
 uint8_t RECEIVER_MAC[] = { 0xD0, 0xEF, 0x76, 0x32, 0x55, 0xB8 };  
 
@@ -284,11 +270,7 @@ void loop() {
 7. kirim data frame via ESP NOW ke MAC Receiver </pre> 
 ## ESP RECEIVER </pre>
 ### main.cpp
-<pre> #include <Arduino.h>
-#include <WiFi.h>
-#include <esp_now.h>
-#include <SPIFFS.h>
-#include <ArduinoJson.h>
+<pre> 
 File file;
 bool receiving = false;
 
@@ -375,4 +357,9 @@ void setup() {
 void loop() {}
  </pre>
 **keterangan**  </pre>
-1. 
+1. ESP-Bridge menerima file JSON dari laptop (via Serial). </pre>
+2. Bridge mengirim file JSON potongan demi potongan ke Receiver lewat ESP-NOW. </pre>
+3.  ESP-Receiver: </pre>
+Menerima potongan → simpan di SPIFFS </pre>
+Setelah tanda <<END>> diterima → tutup file </pre>
+Parsing JSON → tampilkan hasil terformat di Serial Monitor </pre>
