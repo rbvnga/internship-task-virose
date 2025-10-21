@@ -261,13 +261,13 @@ void loop() {
   }
 } </pre>
 **keterangan**  </pre>
-1. memastikan ESP Bridge ke mode station </pre>
-2. membaca semua byte yang masuk  dari serial </pre>
-3. cek apakah buffer (byte yang dikirim) sudah berisi header dan isi data yang memenuhi</pre>
-4. parse setiap frame dari serial buffer </pre>
-5. menetapkan MAC Address ESP penerima </pre>
+1. Memastikan ESP Bridge ke mode station </pre>
+2. Membaca semua byte yang masuk  dari serial </pre>
+3. Cek apakah buffer (byte yang dikirim) sudah berisi header dan isi data yang memenuhi</pre>
+4. Parse setiap frame dari serial buffer -> ```ParseFrame``` </pre>
+5. Menetapkan MAC Address ESP penerima </pre>
 6. Menambahkan peer atau perangkat tujuan ke daftar ESP NOW </pre>
-7. kirim data frame via ESP NOW ke MAC Receiver </pre> 
+7. Kirim data frame via ESP NOW ke MAC Receiver </pre> 
 ## ESP RECEIVER </pre>
 ### main.cpp
 <pre> 
