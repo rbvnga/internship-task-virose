@@ -149,8 +149,8 @@ int main() {
     return 0;
 } </pre>
 **Keterangan** </pre>
-1. membaca file halo.json dalam mode biner </pre>
-2. memecah data menjadi potongan-potongan setiap beberapa byte, didalam kode ini file dipecah setiap 50 byte </pre>
+1. membaca file halo.json dalam mode biner  -> ```readFileBinary``` </pre>
+2. memecah data menjadi potongan-potongan setiap beberapa byte, didalam kode ini file dipecah setiap 50 byte -> splitData </pre>
 3. setiap potongan akan memiliki header sederhana, yaitu index ptongan, total potongan, dan ukuran data </pre>
 4. masukkan header dan isi data di setiap potongannya </pre>
 5. kirim potongan ke serial
@@ -361,5 +361,5 @@ void loop() {}
 2. Bridge mengirim file JSON potongan demi potongan ke Receiver lewat ESP-NOW. </pre>
 3.  ESP-Receiver: </pre>
 Menerima potongan → simpan di SPIFFS </pre> |
-Setelah tanda <<END>> diterima → tutup file </pre> |
+Setelah tanda ```<<END>>``` diterima → tutup file </pre> |
 Parsing JSON → tampilkan hasil terformat di Serial Monitor </pre>
