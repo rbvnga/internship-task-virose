@@ -53,7 +53,7 @@ esp-receiver: </pre>
           ├── .gitinore
           ├── platformio </pre>
 
-#### CMakeLists.txt
+#### CMakeLists.txt </pre>
 <pre># Menentukan versi minimum CMake yang diperlukan  cmake_minimum_required(VERSION 3.10)
 project(FileTransferLaptop)
  
@@ -67,8 +67,8 @@ add_executable(FileTransferLaptop src/main.cpp)
 
 # Menautkan link library "serial" ke executable "FileTransferLaptop"
 target_link_libraries(FileTransferLaptop serial)</pre>
-
-#### Main.cpp
+## LAPTOP </pre>
+#### Main.cpp </pre>
 
 <pre>
 #include <iostream>
@@ -80,7 +80,7 @@ target_link_libraries(FileTransferLaptop serial)</pre>
 
 using namespace std;
 
-//membaca file dalam mode biner
+//membuka dan membaca file dalam mode biner
 vector<uint8_t> readFileBinary(const string &filename) {
     ifstream file(filename, ios::binary);
     vector<uint8_t> buffer((istreambuf_iterator<char>(file)), {});
@@ -89,9 +89,11 @@ vector<uint8_t> readFileBinary(const string &filename) {
 
 //memecah data menjadi potongan-potongan kecil
 vector<vector<uint8_t>> splitData(const vector<uint8_t> &data, size_t chunkSize) {
-    vector<vector<uint8_t>> chunks;
+    vector<vector<uint8_t>> chunks; //chunks -> vektor untuk menyimpan potongan-potongan file .json
     for (size_t i = 0; i < data.size(); i += chunkSize) {
+        //Menghitung indeks akhir dari potongan
         size_t end = min(i + chunkSize, data.size());
+        //Memasukkan potongan data ke dalam chunks
         chunks.emplace_back(data.begin() + i, data.begin() + end);
     }
     return chunks;
@@ -124,14 +126,14 @@ int main() {
 
         // Kirim tiap potongan dengan header sederhana
         for (size_t i = 0; i < chunks.size(); ++i) {
-            vector<uint8_t> packet;
+            vector<uint8_t> packet; packet-> menampung header + isi data dari satu potongan
 
             // header sederhana [index][total][ukuran_data]
-            packet.push_back(static_cast<uint8_t>(i));           // index potongan
-            packet.push_back(static_cast<uint8_t>(chunks.size())); // total potongan
+            packet.push_back(static_cast<uint8_t>(i)); // index potongan
+            packet.push_back(static_cast<uint8_t>(chunks.size())); //total potongan
             packet.push_back(static_cast<uint8_t>(chunks[i].size())); // ukuran data
 
-            // tambahkan isi data
+            // Menambahkan isi potongan data ke belakang header
             packet.insert(packet.end(), chunks[i].begin(), chunks[i].end());
 
             // kirim ke serial
@@ -164,3 +166,5 @@ File .json harus menggunakan setiap key yang ditentukan sedangkan untuk value se
 }
 </pre>
 ### FORMAT OUTPUT HASIL DATA YANG SUDAH DISUSUN KE SERIAL MONITOR </pre>
+## ESP BRIDGE </pre>
+## ESP RECEIVER </pre>
