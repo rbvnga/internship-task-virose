@@ -150,7 +150,7 @@ int main() {
 } </pre>
 **Keterangan** </pre>
 1. membaca file halo.json dalam mode biner  -> ```readFileBinary``` </pre>
-2. memecah data menjadi potongan-potongan setiap beberapa byte, didalam kode ini file dipecah setiap 50 byte -> splitData </pre>
+2. memecah data menjadi potongan-potongan setiap beberapa byte, didalam kode ini file dipecah setiap 50 byte -> ```splitData``` </pre>
 3. setiap potongan akan memiliki header sederhana, yaitu index ptongan, total potongan, dan ukuran data </pre>
 4. masukkan header dan isi data di setiap potongannya </pre>
 5. kirim potongan ke serial
