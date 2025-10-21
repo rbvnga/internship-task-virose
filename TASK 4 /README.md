@@ -1,6 +1,6 @@
 # TASK 4 - CROSS PLATFORM FILE TRANSFER </pre>
 ## DESKRIPSI </pre>
-TASK 4 - CROSS PLATFORM FILE TRANSFER merupakan sistem pengiriman file .json dengan alur sebagai berikut: </pre>
+TASK 4 - CROSS PLATFORM FILE TRANSFER merupakan sistem pengiriman file .json menggunakan library serial dengan alur sebagai berikut: </pre>
 
 laptop: </pre>
 1. Buat file sesuai ketentuan. </pre>
