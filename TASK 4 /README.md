@@ -68,6 +68,90 @@ add_executable(FileTransferLaptop src/main.cpp)
 # Menautkan link library "serial" ke executable "FileTransferLaptop"
 target_link_libraries(FileTransferLaptop serial)</pre>
 
+#### Main.cpp
+
+<pre>#include <iostream>
+#include <fstream>
+#include <vector>
+#include <serial/serial.h>   // Library serial dari wjwwood
+#include <thread>
+#include <chrono>
+
+using namespace std;
+
+//membaca file dalam mode biner
+vector<uint8_t> readFileBinary(const string &filename) {
+    ifstream file(filename, ios::binary);
+    vector<uint8_t> buffer((istreambuf_iterator<char>(file)), {});
+    return buffer;
+}
+
+//memecah data menjadi potongan-potongan kecil
+vector<vector<uint8_t>> splitData(const vector<uint8_t> &data, size_t chunkSize) {
+    vector<vector<uint8_t>> chunks;
+    for (size_t i = 0; i < data.size(); i += chunkSize) {
+        size_t end = min(i + chunkSize, data.size());
+        chunks.emplace_back(data.begin() + i, data.begin() + end);
+    }
+    return chunks;
+}
+
+int main() {
+    string filePath = "../../../data/halo.json";  // path file JSON
+    string port = "COM7";                   
+    unsigned long baud = 115200;
+
+    try {
+        // Buka serial port
+        serial::Serial esp(port, baud, serial::Timeout::simpleTimeout(1000));
+
+        if (!esp.isOpen()) {
+            cerr << " Gagal membuka port " << port << endl;
+            return -1;
+        }
+
+        cout << " Port " << port << " terbuka!\n";
+
+        // Baca file JSON dalam mode biner
+        auto fileData = readFileBinary(filePath);
+        cout << " File dibaca: " << fileData.size() << " byte\n";
+
+        // Bagi file jadi potongan 200 byte
+        auto chunks = splitData(fileData, 200);
+
+        cout << " Total potongan: " << chunks.size() << endl;
+
+        // Kirim tiap potongan dengan header sederhana
+        for (size_t i = 0; i < chunks.size(); ++i) {
+            vector<uint8_t> packet;
+
+            // header sederhana [index][total][ukuran_data]
+            packet.push_back(static_cast<uint8_t>(i));           // index potongan
+            packet.push_back(static_cast<uint8_t>(chunks.size())); // total potongan
+            packet.push_back(static_cast<uint8_t>(chunks[i].size())); // ukuran data
+
+            // tambahkan isi data
+            packet.insert(packet.end(), chunks[i].begin(), chunks[i].end());
+
+            // kirim ke serial
+            esp.write(packet);
+
+            cout << " Mengirim potongan ke-" << i + 1 << " dari " << chunks.size()
+                 << " (" << chunks[i].size() << " byte)" << endl;
+
+            // delay kecil supaya tidak menumpuk
+            this_thread::sleep_for(chrono::milliseconds(100));
+        }
+
+        cout << "\n Semua potongan telah dikirim!\n";
+
+        esp.close();
+    } catch (const exception &e) {
+        cerr << " Error: " << e.what() << endl;
+    }
+
+    return 0;
+} </pre>
 ### FORMAT FILE .JSON </pre>
 File .json harus menggunakan setiap key yang ditentukan sedangkan untuk value setiap key dibebaskan. Khusus Value dari deskripsi harus memiliki kata **setidaknya 25 kata** </pre>
 <pre>
