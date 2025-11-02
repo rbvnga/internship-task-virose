@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/asusv/OneDrive/Dokumen/UKM ROBOTIK/VI-ROSE/FinalProjek/Webots/controllers/controller-fp/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DWEBOTS_USED_BY_CONTROLLER @CMakeFiles/controller-fp.dir/includes_CXX.rsp -g -o CMakeFiles\\controller-fp.dir\\controller-fp.cpp.obj -c \"C:\\Users\\asusv\\OneDrive\\Dokumen\\UKM ROBOTIK\\VI-ROSE\\FinalProjek\\Webots\\controllers\\controller-fp\\controller-fp.cpp\"",
+  "file": "C:/Users/asusv/OneDrive/Dokumen/UKM ROBOTIK/VI-ROSE/FinalProjek/Webots/controllers/controller-fp/controller-fp.cpp",
+  "output": "CMakeFiles/controller-fp.dir/controller-fp.cpp.obj"
+}
+]
