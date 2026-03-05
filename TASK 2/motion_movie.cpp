@@ -45,3 +45,4 @@ void MotionMovie::printInfo() const {
     cout << "Nama Movie: " << name << endl;
     cout << "Unit ID: " << unit_id << endl;
 }
+
